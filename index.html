@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antonio Dimasi · DJ & Producer</title>
+<meta name="description" content="Antonio Dimasi – DJ e produttore musicale. Musica house ed EDM, uscite, serate e strumenti gratuiti per DJ.">
+<meta name="author" content="Antonio Dimasi">
+<meta property="og:title" content="Antonio Dimasi · DJ & Producer">
+<meta property="og:description" content="Musica house ed EDM, uscite, serate e strumenti gratuiti per DJ.">
+<meta property="og:image" content="https://antoniodimasi.com/img/hero-stage.jpg">
+<meta property="og:url" content="https://antoniodimasi.com/">
+<meta name="theme-color" content="#0b0a10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0a10; --bg2: #13111b; --card: #1a1724; --line: #2a2536;
+    --text: #f3f0f7; --muted: #a8a1b8;
+    --orange: #ff9a3c; --pink: #ff4f8b; --violet: #8b6cff;
+    --grad: linear-gradient(90deg, var(--orange), var(--pink) 55%, var(--violet));
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.6 Inter, system-ui, sans-serif; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; letter-spacing: .02em; margin: 0; line-height: 1; }
+  h2 { font-size: clamp(40px, 6vw, 64px); margin-bottom: 12px; }
+  .kicker { color: var(--orange); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; font-size: 13px; margin-bottom: 10px; }
+  .lead { color: var(--muted); max-width: 640px; font-size: 18px; }
+  section { padding: 96px 0; }
+
+  /* top bar */
+  header { position: fixed; inset: 0 0 auto 0; z-index: 10; transition: background .3s; }
+  header.solid { background: rgba(11, 10, 16, .88); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; gap: 24px; height: 68px; }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; text-decoration: none; letter-spacing: .04em; }
+  .logo span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  nav { display: flex; gap: 22px; margin-left: auto; }
+  nav a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 15px; }
+  nav a:hover { color: var(--text); }
+  .lang { display: flex; border: 1px solid var(--line); border-radius: 99px; overflow: hidden; }
+  .lang button { background: none; border: 0; color: var(--muted); font: 600 12px Inter, sans-serif; padding: 6px 10px; cursor: pointer; }
+  .lang button.on { background: var(--text); color: var(--bg); }
+  .menuBtn { display: none; background: none; border: 0; color: var(--text); font-size: 26px; cursor: pointer; }
+
+  /* hero */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; padding: 0 0 12vh; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0; background: url(img/hero-stage.jpg) center 35% / cover no-repeat; transform: scale(1.05); animation: drift 24s ease-in-out infinite alternate; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,10,16,.35) 0%, rgba(11,10,16,.15) 40%, var(--bg) 100%); }
+  @keyframes drift { to { transform: scale(1.12) translateY(-2%); } }
+  .hero .wrap { position: relative; z-index: 1; width: 100%; }
+  .hero h1 { font-size: clamp(64px, 13vw, 168px); line-height: .88; }
+  .hero h1 span { display: block; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: clamp(17px, 2vw, 21px); color: #e8e2f0; max-width: 560px; margin: 18px 0 30px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 99px; font-weight: 600; text-decoration: none; border: 1px solid transparent; transition: transform .15s, background .15s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.main { background: var(--grad); color: #140d12; }
+  .btn.ghost { border-color: rgba(255,255,255,.35); background: rgba(11,10,16,.35); }
+  .btn.ghost:hover { background: rgba(255,255,255,.1); }
+
+  /* about */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .about img { border-radius: 18px; aspect-ratio: 4/5; object-fit: cover; width: 100%; }
+  .about p { color: var(--muted); }
+  .gallery { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 56px; }
+  .gallery img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 14px; filter: saturate(.95); transition: transform .4s, filter .4s; }
+  .gallery img:hover { transform: scale(1.03); filter: saturate(1.1); }
+  @media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, 1fr); } .gallery img:last-child { grid-column: 1 / -1; aspect-ratio: 16/10; } }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tags span { border: 1px solid var(--line); background: var(--card); padding: 6px 12px; border-radius: 99px; font-size: 14px; }
+
+  /* music */
+  #musica { background: var(--bg2); }
+  .listenTitle { font-size: 36px; margin-bottom: 14px; }
+  .tracks { display: grid; gap: 10px; }
+  .tracks .top { padding: 12px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,154,60,.18), rgba(255,79,139,.12) 45%, rgba(139,108,255,.14)); border: 1px solid #3a2f48; }
+  .tracks .top .badge { margin: 0 0 10px 4px; }
+  .tracks .top iframe { border-radius: 12px; }
+  .releases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 36px 0 44px; }
+  .rel { text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; transition: transform .2s, border-color .2s; }
+  .rel:hover { transform: translateY(-4px); border-color: #3d3550; }
+  .rel img { aspect-ratio: 1; object-fit: cover; width: 100%; }
+  .rel div { padding: 14px 16px 16px; }
+  .rel h3 { font-size: 26px; }
+  .rel small { color: var(--muted); font-size: 13px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; margin-top: 8px; }
+  .badge.out { background: rgba(255,154,60,.15); color: var(--orange); }
+  .badge.new { background: rgba(255,79,139,.18); color: var(--pink); }
+  .badge.soon { background: rgba(139,108,255,.18); color: #b6a4ff; }
+  .player { border-radius: 14px; overflow: hidden; }
+  .player iframe { display: block; width: 100%; border: 0; }
+  .rights { color: var(--muted); font-size: 13px; margin: 18px 0 0; max-width: 760px; }
+
+  /* app */
+  .app { position: relative; overflow: hidden; }
+  .app::before { content: ""; position: absolute; inset: 0; background: url(img/mixer.jpg) center / cover; opacity: .28; }
+  .app::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 25%, rgba(11,10,16,.6)); }
+  .app .wrap { position: relative; z-index: 1; }
+  .feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0 34px; max-width: 900px; }
+  .feat { background: rgba(26,23,36,.8); border: 1px solid var(--line); border-radius: 14px; padding: 18px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .feat b { display: block; font-size: 17px; margin-bottom: 4px; }
+  .feat span { color: var(--muted); font-size: 15px; }
+  .rel audio.preview { width: 100%; height: 34px; margin-top: 10px; }
+  .rel small.pv { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 900px; margin-bottom: 18px; }
+  .plan { background: rgba(26,23,36,.85); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .plan.pro { border: 2px solid transparent; background: linear-gradient(rgba(26,23,36,.95), rgba(26,23,36,.95)) padding-box, var(--grad) border-box; }
+  .planHead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .planHead b { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 34px; letter-spacing: .03em; }
+  .plan .price { font-family: 'Bebas Neue', sans-serif; font-size: 40px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .plan .once { margin: -8px 0 0; color: var(--muted); font-size: 14px; }
+  .plan ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 15px; display: grid; gap: 6px; flex: 1; align-content: start; }
+  .plan .btn { justify-content: center; }
+  .plan .note { margin: 0; color: var(--muted); font-size: 13px; }
+  @media (max-width: 900px) { .plans { grid-template-columns: 1fr; } }
+  .free { font-size: 14px; color: var(--muted); margin-top: 14px; }
+
+  /* skills */
+  #competenze { background: var(--bg2); }
+  .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+  .skill { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .skill h3 { font-size: 30px; margin-bottom: 14px; }
+  .skill h4 { margin: 16px 0 8px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+  .skill h3 + h4 { margin-top: 0; }
+  .gear + h4 { margin-top: 20px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 99px; padding: 4px 10px; font-size: 13.5px; }
+  .courses { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .courses li { padding-left: 14px; border-left: 2px solid #3a2f48; }
+  .courses b { display: block; font-size: 15px; line-height: 1.35; }
+  .courses small { color: var(--muted); font-size: 13px; }
+  .gear { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .gear li { display: flex; gap: 10px; align-items: baseline; font-size: 15px; }
+  .gear li > span:first-child { flex: none; width: 22px; text-align: center; }
+  .gear small { display: block; color: var(--muted); font-size: 13px; }
+
+  /* career timeline */
+  .timeline { position: relative; margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px 22px; }
+  .timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--grad); opacity: .55; }
+  .step { position: relative; padding-top: 26px; }
+  .step::before { content: ""; position: absolute; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--bg2); border: 3px solid var(--orange); }
+  .step.now::before { background: var(--pink); border-color: var(--pink); box-shadow: 0 0 14px var(--pink); }
+  .step b { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .03em; display: block; }
+  .step span { color: var(--muted); font-size: 14.5px; }
+  .timelineTitle { margin-top: 54px; font-size: 36px; }
+  @media (max-width: 900px) {
+    .skills { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; gap: 18px; padding-left: 26px; margin-top: 26px; }
+    .timeline::before { left: 7px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+    .step { padding-top: 0; }
+    .step::before { left: -26px; top: 4px; }
+  }
+
+  /* label */
+  .label { text-align: center; background: radial-gradient(ellipse at center, rgba(139,108,255,.18), transparent 65%), var(--bg); }
+  .label .lead { margin: 0 auto; }
+  .soonTag { display: inline-block; margin-top: 22px; border: 1px dashed #4a3f63; color: #b6a4ff; padding: 8px 18px; border-radius: 99px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
+
+  /* contact */
+  #contatti { background: var(--bg2); }
+  .socials { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .social { display: flex; align-items: center; gap: 14px; padding: 18px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; text-decoration: none; transition: border-color .2s, transform .2s; }
+  .social:hover { border-color: var(--orange); transform: translateY(-3px); }
+  .social svg { width: 30px; height: 30px; flex: none; }
+  .social b { display: block; }
+  .social small { color: var(--muted); }
+  .mailBtn { margin-top: 22px; overflow-wrap: anywhere; }
+
+  footer { padding: 34px 0; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+  footer .privacy { flex-basis: 100%; font-size: 12.5px; line-height: 1.5; opacity: .85; }
+
+  /* reveal on scroll */
+  .rv { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } .rv { opacity: 1; transform: none; transition: none; } }
+
+  @media (max-width: 900px) {
+    .releases { grid-template-columns: repeat(2, 1fr); }    .feats, .socials { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; gap: 32px; }
+    .about img { aspect-ratio: 16/10; }
+  }
+  @media (max-width: 760px) {
+    .menuBtn { display: block; }
+    nav { position: fixed; top: 68px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(11,10,16,.97); border-bottom: 1px solid var(--line); display: none; }
+    nav.open { display: flex; }
+    nav a { padding: 14px 20px; border-top: 1px solid var(--line); }
+    .lang { margin-left: auto; }
+    section { padding: 72px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap bar">
+    <a class="logo" href="#">Antonio <span>Dimasi</span></a>
+    <nav id="nav">
+      <a href="#chi-sono" data-it="Chi sono" data-en="About">Chi sono</a>
+      <a href="#competenze" data-it="Competenze" data-en="Skills">Competenze</a>
+      <a href="#musica" data-it="Musica" data-en="Music">Musica</a>
+      <a href="#app" data-it="App per DJ" data-en="DJ app">App per DJ</a>
+      <a href="#etichetta" data-it="Etichetta" data-en="Label">Etichetta</a>
+      <a href="#contatti" data-it="Contatti" data-en="Contact">Contatti</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Lingua / Language">
+      <button type="button" data-lang="it" class="on">IT</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <button class="menuBtn" id="menuBtn" type="button" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="kicker">DJ · Producer</div>
+    <h1>Antonio<span>Dimasi</span></h1>
+    <p data-it="Musica house ed EDM fatta per la pista: dal primo beat all'ultimo drop."
+       data-en="House and EDM made for the dancefloor: from the first beat to the last drop.">Musica house ed EDM fatta per la pista: dal primo beat all'ultimo drop.</p>
+    <div class="btns">
+      <a class="btn main" href="https://open.spotify.com/artist/3JedjxMLtDD2t8ivYPyEsE" target="_blank" rel="noopener" data-it="▶ Ascolta su Spotify" data-en="▶ Listen on Spotify">▶ Ascolta su Spotify</a>
+      <a class="btn ghost" href="#app" data-it="App gratuita per DJ" data-en="Free DJ app">App gratuita per DJ</a>
+    </div>
+    <div id="liveStats" style="margin-top: 22px"></div>
+  </div>
+</section>
+
+<section id="chi-sono">
+  <div class="wrap about">
+    <img class="rv" src="img/antonio-dj-3.jpg" alt="Antonio Dimasi in consolle" loading="lazy" style="object-position: 85% center">
+    <div class="rv">
+      <div class="kicker" data-it="Chi sono" data-en="About">Chi sono</div>
+      <h2 data-it="In consolle dal 1991" data-en="Behind the decks since 1991">In consolle dal 1991</h2>
+      <p data-it="Mi chiamo Antonio Dimasi e metto dischi dal 1991: dalle feste in cantina alle discoteche della Calabria e poi del Friuli Venezia Giulia, del Veneto e del Trentino, fino al 2003. Dopo una lunga pausa, nel 2020 la musica mi ha richiamato: ho iniziato a studiare teoria musicale, produzione, mixaggio e mastering, e sono tornato ad allenarmi in consolle."
+         data-en="My name is Antonio Dimasi and I&#39;ve been spinning records since 1991: from basement parties to clubs in Calabria and then in Friuli Venezia Giulia, Veneto and Trentino, until 2003. After a long break, in 2020 music called me back: I started studying music theory, production, mixing and mastering, and got back to practising behind the decks.">Mi chiamo Antonio Dimasi e metto dischi dal 1991: dalle feste in cantina alle discoteche della Calabria e poi del Friuli Venezia Giulia, del Veneto e del Trentino, fino al 2003. Dopo una lunga pausa, nel 2020 la musica mi ha richiamato: ho iniziato a studiare teoria musicale, produzione, mixaggio e mastering, e sono tornato ad allenarmi in consolle.</p>
+      <p data-it="All'inizio del 2026 è partito il mio percorso da produttore: tre brani progressive house, Savannah, Afterglow (in tre versioni) e Believe in Yourself, e altri sono in arrivo. Nello stesso periodo ho creato un'app per DJ, «Costruisci la scaletta perfetta per il tuo DJ set», che trovi qui sul sito."
+         data-en="In early 2026 my journey as a producer began: three progressive house tracks, Savannah, Afterglow (in three versions) and Believe in Yourself, with more on the way. In the same period I built a DJ app, “Build the perfect setlist for your DJ set”, which you'll find right here on the site.">All'inizio del 2026 è partito il mio percorso da produttore: tre brani progressive house, Savannah, Afterglow (in tre versioni) e Believe in Yourself, e altri sono in arrivo. Nello stesso periodo ho creato un'app per DJ, «Costruisci la scaletta perfetta per il tuo DJ set», che trovi qui sul sito.</p>
+      <div class="tags"><span>House</span><span>Progressive House</span><span>Melodic House</span><span>Electro House</span><span>EDM</span></div>
+    </div>
+  </div>
+  <div class="wrap gallery">
+    <img class="rv" src="img/antonio-dj-2.jpg" alt="Antonio Dimasi in consolle" loading="lazy">
+    <img class="rv" src="img/antonio-dj-1.jpg" alt="Antonio Dimasi in consolle" loading="lazy">
+    <img class="rv" src="img/antonio-dj-5.jpg" alt="Antonio Dimasi in consolle al mare" loading="lazy">
+    <img class="rv" src="img/antonio-dj-4.jpg" alt="Antonio Dimasi in consolle" loading="lazy">
+    <img class="rv" src="img/antonio-dj-6.jpg" alt="Antonio Dimasi in consolle a una festa" loading="lazy">
+  </div>
+</section>
+
+<section id="competenze">
+  <div class="wrap">
+    <div class="kicker" data-it="Competenze" data-en="Skills">Competenze</div>
+    <h2 data-it="Dallo studio alla consolle" data-en="From the studio to the booth">Dallo studio alla consolle</h2>
+    <p class="lead" data-it="Oltre trent'anni di musica: le serate in discoteca, poi lo studio di teoria, produzione, mix e mastering con corsi certificati."
+       data-en="Over thirty years of music: nights behind the decks in clubs, then studying music theory, production, mixing and mastering through certified courses.">Oltre trent'anni di musica: le serate in discoteca, poi lo studio di teoria, produzione, mix e mastering con corsi certificati.</p>
+
+    <div class="skills">
+      <div class="skill rv">
+        <h3 data-it="🎛 Produzione" data-en="🎛 Production">🎛 Produzione</h3>
+        <h4 data-it="Cosa faccio" data-en="What I do">Cosa faccio</h4>
+        <div class="chips"><span><span data-it="Produzione" data-en="Production">Produzione</span></span><span>Sound design</span><span><span data-it="Arrangiamento" data-en="Arrangement">Arrangiamento</span></span><span>Mix</span><span>Mastering</span><span>Club / Radio / Extended mix</span></div>
+        <h4 data-it="Generi" data-en="Genres">Generi</h4>
+        <div class="chips"><span>Progressive House</span><span>Electro House</span><span>EDM</span><span>Hip Hop</span><span>Trap</span></div>
+        <h4 data-it="DAW" data-en="DAW">DAW</h4>
+        <div class="chips"><span>Ableton Live 11</span><span>Studio One 5</span></div>
+        <h4 data-it="Plugin e synth" data-en="Plugins & synths">Plugin e synth</h4>
+        <div class="chips"><span>Serum</span><span>Arturia Analog Lab</span><span>FabFilter</span><span>Native Instruments Komplete 10</span><span>Kickstart 2 (Nicky Romero)</span><span>ANA Synth</span><span><span data-it="e altri…" data-en="and more…">e altri…</span></span></div>
+      </div>
+
+      <div class="skill rv">
+        <h3 data-it="🎓 Formazione" data-en="🎓 Training">🎓 Formazione</h3>
+        <ul class="courses">
+          <li><b data-it="Corso di Studio One 5" data-en="Studio One 5 course">Corso di Studio One 5</b><small>Jurij Gianluca Ricotti · 06/2020 – 02/2021</small></li>
+          <li><b data-it="Certificazione Ableton 10" data-en="Ableton 10 certification">Certificazione Ableton 10</b><small>LFO Music Academy · Salvo Zappalà</small></li>
+          <li><b data-it="Produzione musicale con Ableton" data-en="Music production with Ableton">Produzione musicale con Ableton</b><small>MAT Academy · 12/2021 – 05/2022</small></li>
+          <li><b data-it="Advanced techniques di mix &amp; mastering" data-en="Advanced mix &amp; mastering techniques">Advanced techniques di mix &amp; mastering</b><small>MAT Academy · Luca Pretolesi · 2022</small></li>
+          <li><b data-it="Advanced Club Mix" data-en="Advanced Club Mix">Advanced Club Mix</b><small>MAT Academy · Luca Pretolesi · 2022</small></li>
+          <li><b data-it="Teoria musicale e armonia per producer" data-en="Music theory and harmony for producers">Teoria musicale e armonia per producer</b><small>KINA Records · 11/2022</small></li>
+        </ul>
+      </div>
+
+      <div class="skill rv">
+        <h3 data-it="🎧 Studio e consolle" data-en="🎧 Studio &amp; decks">🎧 Studio e consolle</h3>
+        <ul class="gear">
+          <li><span>🎚</span><span>Denon DJ SC Live 4<small data-it="Consolle DJ" data-en="DJ console">Consolle DJ</small></span></li>
+          <li><span>🔊</span><span>KRK<small data-it="Monitor da studio" data-en="Studio monitors">Monitor da studio</small></span></li>
+          <li><span>🎛</span><span>PreSonus Quantum ES 2<small data-it="Scheda audio" data-en="Audio interface">Scheda audio</small></span></li>
+          <li><span>🎹</span><span>M-Audio<small data-it="Tastiera MIDI" data-en="MIDI keyboard">Tastiera MIDI</small></span></li>
+        </ul>
+        <h4 data-it="Pubblicazione" data-en="Releases">Pubblicazione</h4>
+        <div class="chips"><span><span data-it="Distribuzione con DistroKid" data-en="Distribution via DistroKid">Distribuzione con DistroKid</span></span><span><span data-it="Brani depositati SOUNDREEF" data-en="Tracks registered with SOUNDREEF">Brani depositati SOUNDREEF</span></span></div>
+      </div>
+    </div>
+
+    <h3 class="timelineTitle" data-it="Il mio percorso" data-en="My journey">Il mio percorso</h3>
+    <div class="timeline">
+      <div class="step rv"><b>1991</b><span data-it="I primi dischi per gioco su un vecchio giradischi, poi i giradischi a cinghia BST, quelli a trazione diretta e un mixer Numark." data-en="First records just for fun on an old turntable, then BST belt-drive decks, direct-drive turntables and a Numark mixer.">I primi dischi per gioco su un vecchio giradischi, poi i giradischi a cinghia BST, quelli a trazione diretta e un mixer Numark.</span></div>
+      <div class="step rv"><b>1992–93</b><span data-it="Le prime feste in cantina con gli amici e le prime feste di compleanno." data-en="First basement parties with friends and the first birthday parties.">Le prime feste in cantina con gli amici e le prime feste di compleanno.</span></div>
+      <div class="step rv"><b>1994</b><span data-it="Feste di compleanno e feste private: San Valentino, Halloween, feste studentesche." data-en="Birthday and private parties: Valentine&#39;s Day, Halloween, student parties.">Feste di compleanno e feste private: San Valentino, Halloween, feste studentesche.</span></div>
+      <div class="step rv"><b>1995</b><span data-it="Aperture di serata nelle discoteche degli stabilimenti balneari e feste private." data-en="Opening sets in beach-club discos and private parties.">Aperture di serata nelle discoteche degli stabilimenti balneari e feste private.</span></div>
+      <div class="step rv"><b>1996–98</b><span data-it="DJ in varie discoteche della Calabria." data-en="DJ in clubs across Calabria.">DJ in varie discoteche della Calabria.</span></div>
+      <div class="step rv"><b>1998–2003</b><span data-it="DJ in discoteche del Friuli Venezia Giulia, del Veneto e del Trentino." data-en="DJ in clubs in Friuli Venezia Giulia, Veneto and Trentino.">DJ in discoteche del Friuli Venezia Giulia, del Veneto e del Trentino.</span></div>
+      <div class="step rv"><b>2020–25</b><span data-it="Studio teoria musicale, produzione, mix e mastering, e sperimento quello che imparo." data-en="I study music theory, production, mixing and mastering, and experiment with what I learn.">Studio teoria musicale, produzione, mix e mastering, e sperimento quello che imparo.</span></div>
+      <div class="step rv now"><b>2026</b><span data-it="Inizio a pubblicare la mia musica su tutte le piattaforme: singoli progressive house e, da novembre, tech house, con nuove uscite in arrivo." data-en="I start releasing my own music on every platform: progressive house singles and, from November, tech house, with new releases on the way.">Inizio a pubblicare la mia musica su tutte le piattaforme: singoli progressive house e, da novembre, tech house, con nuove uscite in arrivo.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="musica">
+  <div class="wrap">
+    <div class="kicker" data-it="Musica" data-en="Music">Musica</div>
+    <h2 data-it="Le mie uscite" data-en="Releases">Le mie uscite</h2>
+    <p class="lead" data-it="Disponibili su Spotify, Apple Music, YouTube Music e tutte le piattaforme digitali."
+       data-en="Available on Spotify, Apple Music, YouTube Music and all digital platforms.">Disponibili su Spotify, Apple Music, YouTube Music e tutte le piattaforme digitali.</p>
+
+    <div class="releases">
+      <div class="rel rv">
+        <img src="img/cover-what-a-bore.jpg" alt="What a Bore! – cover" loading="lazy">
+        <div><h3>What a Bore!</h3><small>Single · Tech House</small><br><span class="badge new" data-it="In uscita · 16.11.2026" data-en="Out · 16.11.2026">In uscita · 16.11.2026</span>
+          <audio class="preview" controls preload="none" controlslist="nodownload" src="audio/anteprima-what-a-bore.mp3"></audio>
+          <small class="pv" data-it="▶ Anteprima di 30 secondi" data-en="▶ 30-second preview">▶ Anteprima di 30 secondi</small></div>
+      </div>
+      <div class="rel rv">
+        <img src="img/cover-tarantella.jpg" alt="Tarantella RMX – cover" loading="lazy">
+        <div><h3>Tarantella RMX</h3><small>Single · Tech House</small><br><span class="badge soon" data-it="Prossima uscita" data-en="Coming soon">Prossima uscita</span>
+          <audio class="preview" controls preload="none" controlslist="nodownload" src="audio/anteprima-tarantella.mp3"></audio>
+          <small class="pv" data-it="▶ Anteprima di 30 secondi" data-en="▶ 30-second preview">▶ Anteprima di 30 secondi</small></div>
+      </div>
+      <div class="rel rv">
+        <img src="img/cover-bella-ciao.jpg" alt="Bella Ciao RMX – cover" loading="lazy">
+        <div><h3>Bella Ciao RMX</h3><small>Single · Tech House</small><br><span class="badge soon" data-it="Prossimamente" data-en="Coming soon">Prossimamente</span>
+          <audio class="preview" controls preload="none" controlslist="nodownload" src="audio/anteprima-bella-ciao.mp3"></audio>
+          <small class="pv" data-it="▶ Anteprima di 30 secondi" data-en="▶ 30-second preview">▶ Anteprima di 30 secondi</small></div>
+      </div>
+      <a class="rel rv" href="https://open.spotify.com/album/3pUK5PYuXl4hWzrRVAA3me" target="_blank" rel="noopener">
+        <img src="img/cover-believe.jpg" alt="Believe in Yourself – cover" loading="lazy">
+        <div><h3>Believe in Yourself</h3><small>Single · 2026</small><br><span class="badge new" data-it="Novità · 24.10.2026" data-en="New · 24.10.2026">Novità · 24.10.2026</span></div>
+      </a>
+      <a class="rel rv" href="https://open.spotify.com/album/3BbM8hMuiqGjcjy7uxvP7R" target="_blank" rel="noopener">
+        <img src="img/cover-afterglow.jpg" alt="Afterglow – cover" loading="lazy">
+        <div><h3>Afterglow</h3><small>Club Mix · Radio Edit · Extended</small><br><span class="badge out" data-it="Uscito · 09.10.2026" data-en="Out · 09.10.2026">Uscito · 09.10.2026</span></div>
+      </a>
+      <a class="rel rv" href="https://open.spotify.com/album/2qNmOn8MyUNZt5oE1PNJtQ" target="_blank" rel="noopener">
+        <img src="img/cover-savannah.jpg" alt="Savannah – cover" loading="lazy">
+        <div><h3>Savannah</h3><small>Single · 2026</small><br><span class="badge out" data-it="Uscito · 01.10.2026" data-en="Out · 01.10.2026">Uscito · 01.10.2026</span></div>
+      </a>
+      <div class="rel rv">
+        <img src="img/cover-golden-hour.jpg" alt="Golden Hour – cover" loading="lazy">
+        <div><h3>Golden Hour</h3><small>Single</small><br><span class="badge soon" data-it="Prossimamente" data-en="Coming soon">Prossimamente</span></div>
+      </div>
+    </div>
+
+    <h3 class="listenTitle" data-it="Ascolta" data-en="Listen">Ascolta</h3>
+    <!-- one Spotify player per track, so the order is ours (the artist player only shows Spotify's "top tracks") -->
+    <div class="tracks rv">
+      <div class="player top">
+        <span class="badge new" data-it="★ Brano di punta" data-en="★ Featured track">★ Brano di punta</span>
+        <iframe src="https://open.spotify.com/embed/track/2eeJ4KqcmQX5JLylebvZ3q?utm_source=generator&theme=0" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Afterglow (Club Mix)"></iframe>
+      </div>
+      <div class="player"><iframe src="https://open.spotify.com/embed/track/37Tgx38zkAizFBDZuOMfEU?utm_source=generator&theme=0" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Believe in Yourself"></iframe></div>
+      <div class="player"><iframe src="https://open.spotify.com/embed/track/2ipNqrphBzd12cBnuq8vol?utm_source=generator&theme=0" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Savannah"></iframe></div>
+      <div class="player"><iframe src="https://open.spotify.com/embed/track/3jGfcUdX1524aYZqSlmA2p?utm_source=generator&theme=0" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Afterglow (Extended Mix)"></iframe></div>
+      <div class="player"><iframe src="https://open.spotify.com/embed/track/4fjVQ2GOb1TrSSc0iZsqVV?utm_source=generator&theme=0" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Afterglow (Radio Edit)"></iframe></div>
+    </div>
+    <p class="rights" data-it="Brani depositati presso SOUNDREEF, ente di gestione indipendente che gestisce i diritti e distribuisce i proventi ai propri iscritti. Distribuzione digitale tramite DistroKid."
+       data-en="Tracks registered with SOUNDREEF, an independent rights management entity that collects and distributes royalties to its members. Digital distribution via DistroKid.">Brani depositati presso SOUNDREEF, ente di gestione indipendente che gestisce i diritti e distribuisce i proventi ai propri iscritti. Distribuzione digitale tramite DistroKid.</p>
+  </div>
+</section>
+
+<section id="app" class="app">
+  <div class="wrap">
+    <div class="kicker" data-it="Strumenti per DJ" data-en="Tools for DJs">Strumenti per DJ</div>
+    <h2 data-it="Costruisci il set perfetto" data-en="Build the perfect set">Costruisci il set perfetto</h2>
+    <p class="lead" data-it="Trascina le tracce del tuo set: l'app riconosce BPM, tonalità ed energia, le mette nell'ordine migliore e ti dice quali passaggi sono deboli e come sistemarli."
+       data-en="Drop in the tracks of your set: the app detects BPM, key and energy, puts them in the best order and tells you which transitions are weak and how to fix them.">Trascina le tracce del tuo set: l'app riconosce BPM, tonalità ed energia, le mette nell'ordine migliore e ti dice quali passaggi sono deboli e come sistemarli.</p>
+    <div class="feats">
+      <div class="feat"><b data-it="🎚 Analisi automatica" data-en="🎚 Automatic analysis">🎚 Analisi automatica</b><span data-it="BPM, tonalità Camelot ed energia di ogni traccia, direttamente dall'audio." data-en="BPM, Camelot key and energy of every track, straight from the audio.">BPM, tonalità Camelot ed energia di ogni traccia, direttamente dall'audio.</span></div>
+      <div class="feat"><b data-it="📈 La forma della serata" data-en="📈 The shape of the night">📈 La forma della serata</b><span data-it="Warm-up, picco o chiusura: l'ordine segue la curva di energia che scegli." data-en="Warm-up, peak time or closing: the order follows the energy curve you pick.">Warm-up, picco o chiusura: l'ordine segue la curva di energia che scegli.</span></div>
+      <div class="feat"><b data-it="🎧 Ascolta il passaggio" data-en="🎧 Hear the transition">🎧 Ascolta il passaggio</b><span data-it="Senti il mix già a tempo prima di suonarlo, con consigli sul pitch." data-en="Hear the blend beat-matched before you play it, with pitch advice.">Senti il mix già a tempo prima di suonarlo, con consigli sul pitch.</span></div>
+    </div>
+    <div class="plans">
+      <div class="plan rv">
+        <div class="planHead"><b data-it="Gratis" data-en="Free">Gratis</b><span class="price">0 €</span></div>
+        <ul>
+          <li data-it="Analisi di BPM, tonalità ed energia" data-en="BPM, key and energy analysis">Analisi di BPM, tonalità ed energia</li>
+          <li data-it="Ordine automatico secondo la forma della serata" data-en="Automatic order following the shape of the night">Ordine automatico secondo la forma della serata</li>
+          <li data-it="Consigli su ogni passaggio e ascolto a tempo" data-en="Advice on every transition and beat-matched preview">Consigli su ogni passaggio e ascolto a tempo</li>
+          <li data-it="Esporta cartella ordinata, M3U, CSV" data-en="Export ordered folder, M3U, CSV">Esporta cartella ordinata, M3U, CSV</li>
+        </ul>
+        <a class="btn ghost" href="app/" data-it="Apri l'app gratis" data-en="Open the free app">Apri l'app gratis</a>
+      </div>
+      <div class="plan pro rv">
+        <div class="planHead"><b>Set Builder Pro</b><span class="price" data-it="9,90 €" data-en="€9.90">9,90 €</span></div>
+        <p class="once" data-it="Pagamento unico · nessun abbonamento" data-en="One-time payment · no subscription">Pagamento unico · nessun abbonamento</p>
+        <ul>
+          <li data-it="Tutto quello della versione gratis" data-en="Everything in the free version">Tutto quello della versione gratis</li>
+          <li data-it="Importa le playlist da rekordbox, Engine DJ, Traktor, Serato e VirtualDJ" data-en="Import playlists from rekordbox, Engine DJ, Traktor, Serato and VirtualDJ">Importa le playlist da rekordbox, Engine DJ, Traktor, Serato e VirtualDJ</li>
+          <li data-it="Carica una cartella intera" data-en="Load a whole folder">Carica una cartella intera</li>
+          <li data-it="Crea la serata in automatico (anche set radio da 30 minuti)" data-en="Build the night automatically (radio sets from 30 minutes too)">Crea la serata in automatico (anche set radio da 30 minuti)</li>
+          <li data-it="Sistema i passaggi critici con un clic" data-en="Fix critical transitions in one click">Sistema i passaggi critici con un clic</li>
+          <li data-it="Aggiornamenti futuri inclusi nel prezzo" data-en="Future updates included in the price">Aggiornamenti futuri inclusi nel prezzo</li>
+        </ul>
+        <a class="btn main" href="https://antoniodimasi.lemonsqueezy.com/checkout/buy/ec13cfdf-f0f7-4e26-8500-62e44bdfce88" target="_blank" rel="noopener" data-it="Acquista Set Builder Pro · 9,90 €" data-en="Buy Set Builder Pro · €9.90">Acquista Set Builder Pro · 9,90 €</a>
+        <p class="note" data-it="Dopo l'acquisto ricevi per email un codice: incollalo nell'app con «⭐ Set Builder Pro»." data-en="After purchase you get a code by email: paste it in the app with «⭐ Set Builder Pro».">Dopo l'acquisto ricevi per email un codice: incollalo nell'app con «⭐ Set Builder Pro».</p>
+      </div>
+    </div>
+    <p class="free" data-it="Funziona nel browser e si può installare sul computer o sul telefono: apri l'app e premi «📲 Installa l'app». Le tue tracce restano sul tuo dispositivo."
+       data-en="Runs in your browser and can be installed on your computer or phone: open the app and press «📲 Install the app». Your tracks stay on your device.">Funziona nel browser e si può installare sul computer o sul telefono: apri l'app e premi «📲 Installa l'app». Le tue tracce restano sul tuo dispositivo.</p>
+  </div>
+</section>
+
+<section id="etichetta" class="label">
+  <div class="wrap rv">
+    <div class="kicker" data-it="Etichetta indipendente" data-en="Independent label">Etichetta indipendente</div>
+    <h2 data-it="Una nuova casa per la musica dance" data-en="A new home for dance music">Una nuova casa per la musica dance</h2>
+    <p class="lead" data-it="Sto preparando la mia etichetta indipendente: nuove uscite, nuovi artisti e tanta musica per la pista. Seguimi sui social per non perdere l'annuncio."
+       data-en="I'm getting my own independent label ready: new releases, new artists and plenty of music for the dancefloor. Follow me on social media so you don't miss the announcement.">Sto preparando la mia etichetta indipendente: nuove uscite, nuovi artisti e tanta musica per la pista. Seguimi sui social per non perdere l'annuncio.</p>
+    <span class="soonTag" data-it="Presto in arrivo" data-en="Coming soon">Presto in arrivo</span>
+  </div>
+</section>
+
+<section id="contatti">
+  <div class="wrap">
+    <div class="kicker" data-it="Contatti" data-en="Contact">Contatti</div>
+    <h2 data-it="Info e collaborazioni" data-en="Info & collaborations">Info e collaborazioni</h2>
+    <p class="lead" data-it="Per informazioni, serate o collaborazioni scrivimi una email o seguimi sui social."
+       data-en="For info, gigs or collaborations, send me an email or follow me on social media.">Per informazioni, serate o collaborazioni scrivimi una email o seguimi sui social.</p>
+    <a class="btn main mailBtn" href="mailto:antonio.dimasidjprod@outlook.it">✉ antonio.dimasidjprod@outlook.it</a>
+    <div class="socials">
+      <a class="social rv" href="https://open.spotify.com/artist/3JedjxMLtDD2t8ivYPyEsE" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="#1ed760" aria-hidden="true"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.4-2.1-10.6-1.2a.75.75 0 1 1-.33-1.46c4.6-1 8.6-.6 11.7 1.3.36.22.47.69.25 1.1Zm1.47-3.27a.94.94 0 0 1-1.29.3c-3.2-2-8.1-2.5-11.9-1.4a.94.94 0 1 1-.54-1.8c4.3-1.3 9.7-.7 13.4 1.6.44.27.58.85.31 1.3Zm.13-3.4C15.2 8.4 8.8 8.2 5.2 9.3a1.13 1.13 0 1 1-.66-2.16c4.2-1.3 11.2-1 15.6 1.6a1.13 1.13 0 0 1-1.15 1.94Z"/></svg>
+        <span><b>Spotify</b><small data-it="Ascolta e segui" data-en="Listen & follow">Ascolta e segui</small></span>
+      </a>
+      <a class="social rv" href="https://www.youtube.com/@antoniodimasidjproducer" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff0033" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/><path fill="#fff" d="m9.6 15.6 6.2-3.6-6.2-3.6z"/></svg>
+        <span><b>YouTube</b><small data-it="Video e visualizer" data-en="Videos & visualizers">Video e visualizer</small></span>
+      </a>
+      <a class="social rv" href="https://www.tiktok.com/@antonio.dimasimusic" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25f4ee" d="M9.4 9.6v-1a7.4 7.4 0 0 0-1-.1 7.2 7.2 0 0 0-4.1 13.1 7.2 7.2 0 0 1 5.1-12Z"/><path fill="#fe2c55" d="M9.6 20.8a3.3 3.3 0 0 0 3.3-3.2V1.2h3a5.5 5.5 0 0 1-.1-1h-4.1v16.4a3.3 3.3 0 0 1-4.8 2.8 3.3 3.3 0 0 0 2.7 1.4Zm12-14.1v-1a5.4 5.4 0 0 1-3-.9 5.5 5.5 0 0 0 3 1.9Z"/><path fill="#fff" d="M18.6 5.8a5.4 5.4 0 0 1-1.4-3.6h-1.1a5.5 5.5 0 0 0 2.5 3.6ZM8.4 13.8a3.3 3.3 0 0 0-1.5 6.2 3.3 3.3 0 0 1 2.7-5.2 3.2 3.2 0 0 1 1 .2v-4.2a7.2 7.2 0 0 0-1-.1h-.2v3.2a3.2 3.2 0 0 0-1-.1Zm13.2-7.1v3.2a9.3 9.3 0 0 1-5.5-1.8v8.2a7.2 7.2 0 0 1-11.3 5.9A7.2 7.2 0 0 0 17.2 17V8.9a9.3 9.3 0 0 0 5.5 1.8v-4a5.5 5.5 0 0 1-1.1 0Z"/></svg>
+        <span><b>TikTok</b><small>@antonio.dimasimusic</small></span>
+      </a>
+      <a class="social rv" href="https://soundcloud.com/antoniodimasidjprod" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff5500" d="M1.2 14.4c.06 0 .1-.05.11-.1l.27-1.85-.27-1.89c-.01-.06-.05-.1-.11-.1s-.1.04-.1.1L.86 12.45l.24 1.85c0 .06.05.1.1.1Zm1.07.8c.07 0 .12-.05.13-.12l.33-2.63-.33-2.68c0-.07-.06-.12-.13-.12s-.12.05-.13.12l-.29 2.68.29 2.63c.01.07.06.12.13.12Zm1.12.38c.08 0 .14-.06.15-.14l.3-3-.3-3.1c-.01-.08-.07-.14-.15-.14s-.14.06-.15.14l-.27 3.1.27 3c.01.08.07.14.15.14Zm1.13.07c.09 0 .17-.07.17-.16l.29-3.05-.29-3.17c0-.1-.08-.17-.17-.17s-.16.07-.17.17l-.25 3.17.25 3.05c.01.09.08.16.17.16Zm1.15.03c.1 0 .19-.08.19-.18l.26-3.06-.26-4.86c0-.1-.09-.19-.19-.19s-.18.08-.19.19l-.23 4.86.23 3.06c.01.1.09.18.19.18Zm1.16.01c.11 0 .2-.09.21-.2l.24-3.05-.24-5.86c-.01-.12-.1-.21-.21-.21s-.2.09-.21.21l-.21 5.86.21 3.05c.01.11.1.2.21.2Zm1.17 0c.12 0 .22-.1.23-.22l.22-3.03-.22-6.14c-.01-.13-.11-.23-.23-.23s-.22.1-.23.23l-.19 6.14.19 3.03c.01.12.11.22.23.22Zm1.19 0c.13 0 .24-.11.24-.24l.2-3.01-.2-6.36c0-.14-.11-.25-.24-.25s-.24.11-.25.25l-.17 6.36.17 3.01c.01.13.12.24.25.24Zm1.2 0c.14 0 .26-.12.26-.26l.18-2.99-.18-6.48c0-.15-.12-.27-.26-.27s-.26.12-.27.27l-.15 6.48.15 2.99c.01.14.13.26.27.26Zm1.36-10.9c-.16 0-.29.13-.29.29l-.16 7.62.16 2.73c0 .15.13.28.29.28s.28-.13.29-.28l.17-2.73-.17-7.62c-.01-.16-.14-.29-.29-.29Zm7.94 4.4c-.37 0-.73.08-1.05.21-.21-2.44-2.26-4.36-4.76-4.36-.61 0-1.21.12-1.73.32-.2.08-.26.16-.26.32v8.6c0 .17.14.31.31.32h7.49c1.49 0 2.7-1.21 2.7-2.71s-1.21-2.7-2.7-2.7Z"/></svg>
+        <span><b>SoundCloud</b><small>antoniodimasidjprod</small></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Antonio Dimasi · <span data-it="Tutti i diritti riservati." data-en="All rights reserved.">Tutti i diritti riservati.</span></span>
+    <span>antoniodimasi.com</span>
+    <small class="privacy" data-it="🔒 Privacy: questo sito non usa cookie e non raccoglie dati personali. Contiamo solo in forma anonima le visite e l'uso delle funzioni dell'app (numeri totali). I brani che carichi in Set Builder restano sul tuo computer. Pagamenti gestiti da Lemon Squeezy." data-en="🔒 Privacy: this site uses no cookies and collects no personal data. We only count, anonymously, visits and how the app features are used (totals only). The tracks you load in Set Builder stay on your computer. Payments handled by Lemon Squeezy.">🔒 Privacy: questo sito non usa cookie e non raccoglie dati personali. Contiamo solo in forma anonima le visite e l'uso delle funzioni dell'app (numeri totali). I brani che carichi in Set Builder restano sul tuo computer. Pagamenti gestiti da Lemon Squeezy.</small>
+  </div>
+</footer>
+
+<script>
+  // language: first visit follows the browser, then the visitor's choice is remembered
+  function setLang(l) {
+    document.documentElement.lang = l;
+    document.querySelectorAll('[data-' + l + ']').forEach(el => { el.textContent = el.dataset[l]; });
+    document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
+    try { localStorage.setItem('ad:lang', l); } catch (e) {}
+  }
+  let lang = 'it';
+  try { lang = localStorage.getItem('ad:lang') || ((navigator.language || 'it').startsWith('it') ? 'it' : 'en'); } catch (e) {}
+  setLang(lang);
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+  // top bar turns solid after the hero
+  const head = document.getElementById('top');
+  const onScroll = () => head.classList.toggle('solid', scrollY > 40);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // phone menu
+  const nav = document.getElementById('nav');
+  document.getElementById('menuBtn').addEventListener('click', () => nav.classList.toggle('open'));
+  nav.addEventListener('click', e => { if (e.target.tagName === 'A') nav.classList.remove('open'); });
+
+  // fade sections in as they scroll into view
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+<script src="/counters.js" defer></script>
+</body>
+</html>
