@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Statistiche Set Builder</title>
+<style>
+  :root { --bg: #0b0d12; --panel: #151922; --line: #262c3a; --text: #eef0f5; --muted: #9aa3b5; --orange: #ff7a18; --pink: #ff3d7f; --violet: #7b5cff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 32px 16px 60px; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  h1 span { background: linear-gradient(90deg, var(--orange), var(--pink), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+  .login { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  input[type=password] { flex: 1 1 220px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; }
+  button { background: linear-gradient(90deg, var(--pink), var(--violet)); color: #fff; border: 0; border-radius: 10px; padding: 10px 18px; font: 600 15px system-ui, sans-serif; cursor: pointer; }
+  label.rem { color: var(--muted); font-size: 13px; display: flex; gap: 6px; align-items: center; }
+  .err { color: #f87171; min-height: 1.4em; margin: 8px 0 0; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .kpi { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .kpi b { display: block; font-size: 28px; }
+  .kpi small { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .bar { height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--orange), var(--pink)); min-width: 2px; }
+  .seg { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .seg button { background: var(--bg); border: 1px solid var(--line); padding: 6px 12px; font-size: 13px; }
+  .seg button.on { background: linear-gradient(90deg, var(--pink), var(--violet)); border-color: transparent; }
+  .note { color: var(--muted); font-size: 13px; }
+  h2 { font-size: 17px; margin: 0 0 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>📊 Statistiche <span>Set Builder</span></h1>
+  <p class="sub">Pagina privata di Antonio · numeri anonimi, nessun dato personale.</p>
+
+  <div class="panel" id="setupBox" hidden>
+    <h2>Prima volta: scegli la tua parola segreta</h2>
+    <p class="note">Almeno 8 caratteri. Servirà per entrare in questa pagina: scrivila da qualche parte e non dirla a nessuno. Si può scegliere una volta sola.</p>
+    <form class="login" id="setup">
+      <input type="password" id="newPass" placeholder="Nuova parola segreta" autocomplete="new-password" aria-label="Nuova parola segreta">
+      <input type="password" id="newPass2" placeholder="Ripetila" autocomplete="new-password" aria-label="Ripeti la parola segreta">
+      <button type="submit">Salva</button>
+    </form>
+    <p class="err" id="setupErr"></p>
+  </div>
+
+  <div class="panel" id="loginBox">
+    <form class="login" id="login">
+      <input type="password" id="pass" placeholder="Parola segreta" autocomplete="current-password" aria-label="Parola segreta">
+      <button type="submit">Entra</button>
+      <label class="rem"><input type="checkbox" id="remember" checked> Ricordala su questo dispositivo</label>
+    </form>
+    <p class="err" id="err"></p>
+  </div>
+
+  <div id="stats" hidden>
+    <div class="panel">
+      <h2>Visite totali (dall'inizio)</h2>
+      <div class="kpis" id="visits"></div>
+      <p class="note">Ogni browser viene contato al massimo una volta al giorno per pagina.</p>
+    </div>
+    <div class="panel">
+      <h2>Uso delle funzioni dell'app</h2>
+      <div class="seg" id="range">
+        <button type="button" data-d="1">Oggi</button>
+        <button type="button" data-d="7" class="on">Ultimi 7 giorni</button>
+        <button type="button" data-d="30">Ultimi 30 giorni</button>
+        <button type="button" data-d="90">Ultimi 90 giorni</button>
+      </div>
+      <table><thead><tr><th>Funzione</th><th class="n">Volte</th><th style="width:35%"></th></tr></thead><tbody id="rows"></tbody></table>
+      <p class="note">Ogni browser conta ogni funzione al massimo 20 volte al giorno. I conteggi partono dal giorno in cui sono stati attivati.</p>
+    </div>
+    <div class="panel">
+      <h2>Giorno per giorno</h2>
+      <table><thead><tr><th>Giorno</th><th class="n">Brani caricati</th><th class="n">Passaggi ascoltati</th><th class="n">Esportazioni</th><th class="n">Clic «Acquista»</th></tr></thead><tbody id="days"></tbody></table>
+    </div>
+    <p><button type="button" id="logout" style="background:var(--panel);border:1px solid var(--line)">Esci da questo dispositivo</button></p>
+  </div>
+</main>
+<script>
+// the same Supabase project as the visit counters (counters.js)
+const URL_BASE = 'https://oqanymbortpoafjmryub.supabase.co/rest/v1/';
+const KEY = 'sb_publishable_hq5RvqKNNfexKBKNC7imTg_Sky9PjPo';
+const H = { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' };
+const rpc = (fn, body) => fetch(URL_BASE + 'rpc/' + fn, { method: 'POST', headers: H, body: JSON.stringify(body || {}) });
+const LABELS = {
+  load: 'Brani caricati (trascinati o scelti)', import: 'Importazioni da rekordbox (Pro)', folder: 'Cartelle caricate (Pro)',
+  night: 'Serate create in automatico (Pro)', fix: 'Passaggi critici sistemati (Pro)', preview: 'Passaggi ascoltati 🎧',
+  export: 'Esportazioni (cartella, M3U, CSV, copia)', save: 'Scalette salvate', compare: 'Confronti tra scalette',
+  pro_open: 'Finestra Pro aperta', buy_click: 'Clic su «Acquista Pro»', pro_on: 'Pro attivate con un codice', support: 'Richieste di assistenza',
+};
+const $ = s => document.querySelector(s);
+let data = [], days = 7;
+const fmtDay = d => new Date(d + 'T12:00:00').toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit', month: '2-digit' });
+
+async function load(pass) {
+  const r = await rpc('event_stats', { p_pass: pass });
+  if (!r.ok) throw new Error(r.status === 400 || r.status === 401 || r.status === 403 ? 'denied' : 'server');   // wrong word → the function refuses
+  const rows = await r.json();
+  const hits = await (await fetch(URL_BASE + 'page_hits?select=page,hits', { headers: H })).json();
+  return { rows, hits };
+}
+function render() {
+  const from = new Date(); from.setDate(from.getDate() - (days - 1));
+  const fromStr = from.toISOString().slice(0, 10);
+  const tot = {};
+  data.filter(r => r.day >= fromStr).forEach(r => { tot[r.event] = (tot[r.event] || 0) + Number(r.n); });
+  const max = Math.max(1, ...Object.values(tot));
+  $('#rows').innerHTML = Object.keys(LABELS).map(k => `<tr><td>${LABELS[k]}</td><td class="n">${tot[k] || 0}</td><td><div class="bar" style="width:${(tot[k] || 0) / max * 100}%"></div></td></tr>`).join('');
+  const byDay = {};
+  data.forEach(r => { (byDay[r.day] = byDay[r.day] || {})[r.event] = Number(r.n); });
+  const list = Object.keys(byDay).sort().reverse().slice(0, 30);
+  $('#days').innerHTML = list.length ? list.map(d => { const x = byDay[d]; return `<tr><td>${fmtDay(d)}</td><td class="n">${x.load || 0}</td><td class="n">${x.preview || 0}</td><td class="n">${x.export || 0}</td><td class="n">${x.buy_click || 0}</td></tr>`; }).join('')
+    : '<tr><td colspan="5" class="note">Ancora nessun dato: i numeri arrivano appena qualcuno usa l’app.</td></tr>';
+}
+async function enter(pass, remember) {
+  $('#err').textContent = 'Carico…';
+  try {
+    const { rows, hits } = await load(pass);
+    data = rows;
+    const h = Object.fromEntries(hits.map(x => [x.page, x.hits]));
+    $('#visits').innerHTML = `<div class="kpi"><b>${h.app || 0}</b><small>App Set Builder aperta</small></div><div class="kpi"><b>${h.site || 0}</b><small>Sito antoniodimasi.com</small></div>`;
+    try { if (remember) localStorage.setItem('ad:statspass', pass); } catch (e) {}
+    $('#err').textContent = '';
+    $('#stats').hidden = false;
+    render();
+  } catch (e) {
+    $('#err').textContent = e.message === 'denied' ? 'Parola segreta sbagliata.' : 'Non riesco a leggere le statistiche: controlla la connessione e riprova.';
+    if (e.message === 'denied') try { localStorage.removeItem('ad:statspass'); } catch (x) {}
+  }
+}
+$('#login').addEventListener('submit', e => { e.preventDefault(); const p = $('#pass').value.trim(); if (p) enter(p, $('#remember').checked); });
+$('#range').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; days = +b.dataset.d; document.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b)); render(); });
+$('#logout').addEventListener('click', () => { try { localStorage.removeItem('ad:statspass'); } catch (e) {} location.reload(); });
+$('#setup').addEventListener('submit', async e => {
+  e.preventDefault();
+  const a = $('#newPass').value.trim(), b = $('#newPass2').value.trim();
+  if (a.length < 8) { $('#setupErr').textContent = 'Usa almeno 8 caratteri.'; return; }
+  if (a !== b) { $('#setupErr').textContent = 'Le due parole non sono uguali.'; return; }
+  try {
+    const ok = await (await rpc('stats_setup', { p_pass: a })).json();
+    if (ok !== true) { $('#setupErr').textContent = 'La parola segreta è già stata scelta: entra qui sotto.'; return; }
+    $('#setupBox').hidden = true; $('#loginBox').hidden = false;
+    enter(a, true);
+  } catch (x) { $('#setupErr').textContent = 'Non riesco a salvarla: controlla la connessione e riprova.'; }
+});
+(async () => {
+  // first visit after the SQL: no secret yet → choose it here
+  try { if (await (await rpc('stats_ready')).json() === false) { $('#setupBox').hidden = false; $('#loginBox').hidden = true; return; } } catch (e) {}
+  try { const p = localStorage.getItem('ad:statspass'); if (p) { $('#pass').value = p; enter(p, true); } } catch (e) {}
+})();
+</script>
+</body>
+</html>
