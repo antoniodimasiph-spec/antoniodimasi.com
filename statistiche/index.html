@@ -46,6 +46,7 @@
     <form class="login" id="setup">
       <input type="password" id="newPass" placeholder="Nuova parola segreta" autocomplete="new-password" aria-label="Nuova parola segreta">
       <input type="password" id="newPass2" placeholder="Ripetila" autocomplete="new-password" aria-label="Ripeti la parola segreta">
+      <label class="rem"><input type="checkbox" class="showPass"> 👁 Mostra</label>
       <button type="submit">Salva</button>
     </form>
     <p class="err" id="setupErr"></p>
@@ -56,8 +57,10 @@
       <input type="password" id="pass" placeholder="Parola segreta" autocomplete="current-password" aria-label="Parola segreta">
       <button type="submit">Entra</button>
       <label class="rem"><input type="checkbox" id="remember" checked> Ricordala su questo dispositivo</label>
+      <label class="rem"><input type="checkbox" class="showPass"> 👁 Mostra la parola</label>
     </form>
     <p class="err" id="err"></p>
+    <p class="note">Hai dimenticato la parola segreta? In Supabase → SQL Editor esegui <code>delete from public.stats_secret;</code> e riapri questa pagina: potrai sceglierne una nuova.</p>
   </div>
 
   <div id="stats" hidden>
@@ -138,6 +141,9 @@ async function enter(pass, remember) {
 }
 $('#login').addEventListener('submit', e => { e.preventDefault(); const p = $('#pass').value.trim(); if (p) enter(p, $('#remember').checked); });
 $('#range').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; days = +b.dataset.d; document.querySelectorAll('#range button').forEach(x => x.classList.toggle('on', x === b)); render(); });
+// "show" boxes: reveal the secret word while typing it
+document.querySelectorAll('.showPass').forEach(cb => cb.addEventListener('change', () =>
+  cb.closest('form').querySelectorAll('input[type=password], input[data-pw]').forEach(i => { i.dataset.pw = '1'; i.type = cb.checked ? 'text' : 'password'; })));
 $('#logout').addEventListener('click', () => { try { localStorage.removeItem('ad:statspass'); } catch (e) {} location.reload(); });
 $('#setup').addEventListener('submit', async e => {
   e.preventDefault();
