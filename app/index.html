@@ -1270,6 +1270,25 @@ function assignEnergy(done) {
   done.forEach((t, i) => { t.energy = clamp(Math.round((5.5 + 2 * (comb[i] - m) / sd) * 10) / 10, 1, 10); });
 }
 
+// ===================== The same song in another version =====================
+// «Song (Radio Edit)», «Song (Extended Mix)», «Song - X Remix» are one song; a mashup «Song A vs Song B» contains
+// both. Each track gets the set of song names it is made of; two tracks sharing one would play a song twice.
+const songNorm = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
+  .replace(/[([][^)\]]*[)\]]/g, ' ')                                                   // (Extended Mix), [VIP]…
+  .replace(/\s(?:feat|ft|featuring)\.?\s.*$/, ' ')                                     // feat. somebody
+  .replace(/\s-\s.*\b(?:mix|edit|remix|version|vip|dub|bootleg|rework|remaster(?:ed)?)\b.*$/, ' ')
+  .replace(/\b(?:radio|extended|original|club|clean|dirty|short|long)\s+(?:mix|edit|version)\s*$/, ' ')
+  .replace(/[^a-z0-9]+/g, '');
+function songKeys(t) {
+  if (t._songKeys) return t._songKeys;
+  const title = t.title || parseName(t.fileName || '').title;
+  const mashup = /mash ?up|bootleg|\bvs\.?\s/i.test(title + ' ' + (t.artist || ''));
+  const parts = mashup ? title.replace(/[([][^)\]]*(?:mash ?up|bootleg)[^)\]]*[)\]]/ig, ' ').split(/\s+(?:vs\.?|x|\+)\s+|\s*\/\s*/i) : [title];
+  return (t._songKeys = new Set(parts.map(songNorm).filter(k => k.length >= 4)));   // very short titles say too little
+}
+const sameSong = (a, b) => { if (a === b) return false; const A = songKeys(a); for (const k of songKeys(b)) if (A.has(k)) return true; return false; };
+const clashesWith = (t, list, except) => list.some(o => o && o !== except && sameSong(o, t));
+
 // ===================== Transition scoring =====================
 function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
@@ -1481,9 +1500,10 @@ function computeSuggestions() {
     const base = info.quality;
     let bridge = null, replace = null;
     for (const r of reserve) {
+      if (clashesWith(r, order, b)) continue;
       const q = transInfo(a, r).quality + transInfo(r, b).quality;
       const ar = transInfo(a, r), rb = transInfo(r, b);
-      if (ar.level !== 'bad' && rb.level !== 'bad' && Math.max(ar.quality, rb.quality) < base - 0.2 && (!bridge || q < bridge.q)) bridge = { r, q };
+      if (!clashesWith(r, order) && ar.level !== 'bad' && rb.level !== 'bad' && Math.max(ar.quality, rb.quality) < base - 0.2 && (!bridge || q < bridge.q)) bridge = { r, q };
       const c = order[p + 2];
       const oldQ = base + (c ? transInfo(b, c).quality : 0);
       const newQ = ar.quality + (c ? transInfo(r, c).quality : 0);
@@ -1643,6 +1663,9 @@ function renderSuggestions() {
   const tips = [];
   const order = state.order.map(byId);
   const bpms = order.map(t => t.bpm).filter(Boolean);
+  for (let i = 0; i < order.length; i++) for (let j = i + 1; j < order.length; j++) if (sameSong(order[i], order[j]))
+    tips.push(L(`⚠ «${esc(order[i].title)}» (n. ${i + 1}) e «${esc(order[j].title)}» (n. ${j + 1}) sono la stessa canzone, in un'altra versione o dentro un mashup: meglio tenerne una sola (usa «↓ Riserva»).`,
+      `⚠ «${esc(order[i].title)}» (no. ${i + 1}) and «${esc(order[j].title)}» (no. ${j + 1}) are the same song, in another version or inside a mashup: better keep just one (use «↓ Reserve»).`));
   if (bpms.length && Math.max(...bpms) - Math.min(...bpms) > 20) tips.push(L(`Il set va da ${Math.min(...bpms)} a ${Math.max(...bpms)} BPM: per un cambio così ampio pianifica dei passaggi in loop o un breakdown dove rallentare/accelerare.`, `The set goes from ${Math.min(...bpms)} to ${Math.max(...bpms)} BPM: for such a wide change, plan looped transitions or a breakdown where you slow down/speed up.`));
   if (!state.tracks.some(t => !t.inSet && t.status === 'done') && order.length >= 4) tips.push(L('Sposta qualche traccia in <b>riserva</b> (o carica tracce extra e mettile in riserva): Set Builder ti dirà quali usare per sistemare i passaggi deboli.', 'Move a few tracks to <b>reserve</b> (or load extra tracks and put them in reserve): Set Builder will tell you which ones fix the weak transitions.'));
   if (!state.keyLock && sug.some(x => x.keyIssue)) tips.push(L('Con il <b>Key Lock spento</b>, quando metti a tempo due tracce il pitch le sposta insieme: la distanza tra le tonalità dipende solo dai BPM originali, non da quanto muovi il fader. Per cambiarla servono Key Lock o Key Shift.', 'With <b>Key Lock off</b>, when you beatmatch two tracks the pitch moves both together: the distance between their keys depends only on the original BPMs, not on how far you move the fader. To change it you need Key Lock or Key Shift.'));
@@ -2798,6 +2821,7 @@ function buildNight(k0) {
         let best = null, bc = Infinity;
         for (const c of pool) {
           if (used.has(c.id) || (mustLeft >= slotsLeft && !c.must)) continue;
+          if (!c.must && clashesWith(c, out)) continue;   // radio edit + extended, or a mashup of a song already in
           const v = weightedCost(prev, c) + fit(c, p) + far(c) - (c.must ? 0.6 : 0);
           if (v < bc) { bc = v; best = c; }
         }
@@ -2865,7 +2889,7 @@ function fixCritical() {
           if (v < now && (!best || v < best.v)) best = { v, idx, r: null };
         }
         for (const r of reserve) {
-          if (bad(prev, r) || bad(r, next)) continue;
+          if (bad(prev, r) || bad(r, next) || clashesWith(r, o, x)) continue;
           const v = c(prev, r) + c(r, next) - 0.2;   // keeping the set's length is worth a little
           if (v < now && (!best || v < best.v)) best = { v, idx, r };
         }
